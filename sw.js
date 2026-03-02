@@ -1,4 +1,4 @@
-const CACHE_NAME = 'danai-v1';
+const CACHE_NAME = 'danai-v2';
 const ASSETS = [
   '/',
   '/index.html',
@@ -6,6 +6,7 @@ const ASSETS = [
   '/css/chat.css',
   '/css/terminal.css',
   '/js/app.js',
+  '/js/i18n.js',
   '/manifest.json',
   '/favicon.png',
   '/icons/icon-192.png',

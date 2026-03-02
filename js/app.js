@@ -24,6 +24,20 @@ let state = {
   notificationsEnabled: false,
 };
 
+// ─── Theme Management ───
+function loadTheme() {
+  const saved = localStorage.getItem('danai_theme') || 'dark';
+  document.documentElement.dataset.theme = saved;
+}
+
+function changeTheme(theme) {
+  if (theme !== 'dark' && theme !== 'light') theme = 'dark';
+  document.documentElement.dataset.theme = theme;
+  localStorage.setItem('danai_theme', theme);
+  const themeSelect = document.getElementById('theme-select');
+  if (themeSelect) themeSelect.value = theme;
+}
+
 // ─── System Prompts ───
 const SYSTEM_PROMPTS = {
   general: `Sei Dan AI, un assistente AI avanzato specializzato in coding, analisi file e ricerche. Rispondi in modo preciso, completo e professionale. Usa markdown per formattare le risposte. Quando scrivi codice, fornisci sempre codice completo e funzionante.`,
@@ -110,6 +124,8 @@ const MODE_LABELS = {
 
 // ─── Init ───
 document.addEventListener('DOMContentLoaded', () => {
+  loadUILanguage();
+  loadTheme();
   loadState();
   if (state.isLoggedIn) {
     showApp();
@@ -119,6 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupInput();
   setupVoiceRecognition();
   requestNotificationPermission();
+  applyTranslations();
 });
 
 function loadState() {
@@ -340,9 +357,12 @@ function setMode(mode) {
 }
 
 function updateModeUI() {
-  const info = MODE_LABELS[state.currentMode];
-  document.getElementById('welcome-subtitle').textContent = `Modalità: ${info.name}`;
-  document.getElementById('welcome-hint').textContent = info.hint;
+  const modeNameKeys = { general: 'modeGeneral', coding: 'modeCoding', analysis: 'modeAnalysis', osint: 'modeOsint', search: 'modeSearch' };
+  const modeHintKeys = { general: 'welcomeHintGeneral', coding: 'welcomeHintCoding', analysis: 'welcomeHintAnalysis', osint: 'welcomeHintOsint', search: 'welcomeHintSearch' };
+  const modeName = typeof t === 'function' ? t(modeNameKeys[state.currentMode]) : MODE_LABELS[state.currentMode].name;
+  const modeHint = typeof t === 'function' ? t(modeHintKeys[state.currentMode]) : MODE_LABELS[state.currentMode].hint;
+  document.getElementById('welcome-subtitle').textContent = `${typeof t === 'function' ? t('welcomeSubtitle') : 'Modalità: '}${modeName}`;
+  document.getElementById('welcome-hint').textContent = modeHint;
   updateTitleForMode();
   updateQuickActions();
 }
@@ -358,42 +378,44 @@ function updateTitleForMode() {
 function updateQuickActions() {
   const actions = {
     general: [
-      { icon: '🐍', text: 'Codice Python', prompt: 'Scrivi una funzione Python per ordinare una lista' },
-      { icon: '📸', text: 'Analisi File', prompt: 'Analizza i metadati di un file immagine' },
-      { icon: '🌐', text: 'Ricerca Dominio', prompt: 'Cerca informazioni su un dominio web' },
-      { icon: '🐛', text: 'Debug Codice', prompt: 'Fai debug di questo codice JavaScript' },
+      { icon: '🐍', textKey: 'quickPython', promptKey: 'quickPythonPrompt' },
+      { icon: '📸', textKey: 'quickFileAnalysis', promptKey: 'quickFilePrompt' },
+      { icon: '🌐', textKey: 'quickDomainSearch', promptKey: 'quickDomainPrompt' },
+      { icon: '🐛', textKey: 'quickDebug', promptKey: 'quickDebugPrompt' },
     ],
     coding: [
-      { icon: '🐍', text: 'Python', prompt: 'Scrivi un web scraper completo in Python con requests e BeautifulSoup' },
-      { icon: '☕', text: 'Java', prompt: 'Scrivi una classe Java per gestire una coda con priorità' },
-      { icon: '🟨', text: 'JavaScript', prompt: 'Scrivi un server REST API completo con Express.js' },
-      { icon: '🦀', text: 'Rust', prompt: 'Scrivi un programma Rust per leggere e parsare un file CSV' },
+      { icon: '🐍', textKey: 'quickPython', promptKey: 'quickPythonCoding' },
+      { icon: '☕', textKey: 'quickJava', promptKey: 'quickJavaPrompt' },
+      { icon: '🟨', textKey: 'quickJavaScript', promptKey: 'quickJSPrompt' },
+      { icon: '🦀', textKey: 'quickRust', promptKey: 'quickRustPrompt' },
     ],
     analysis: [
-      { icon: '📸', text: 'EXIF', prompt: 'Come estrarre metadati EXIF da un\'immagine con exiftool' },
-      { icon: '🔍', text: 'Steganografia', prompt: 'Come rilevare steganografia LSB in un\'immagine PNG' },
-      { icon: '📦', text: 'Binwalk', prompt: 'Come usare binwalk per analizzare un firmware' },
-      { icon: '🔐', text: 'Decodifica', prompt: 'Decodifica questa stringa Base64: SGVsbG8gV29ybGQ=' },
+      { icon: '📸', textKey: 'quickExif', promptKey: 'quickExifPrompt' },
+      { icon: '🔍', textKey: 'quickStego', promptKey: 'quickStegoPrompt' },
+      { icon: '📦', textKey: 'quickBinwalk', promptKey: 'quickBinwalkPrompt' },
+      { icon: '🔐', textKey: 'quickDecode', promptKey: 'quickDecodePrompt' },
     ],
     osint: [
-      { icon: '👤', text: 'Persona', prompt: 'Come fare una ricerca OSINT completa su una persona' },
-      { icon: '🌐', text: 'Dominio', prompt: 'Analizza il dominio example.com: WHOIS, DNS, tecnologie' },
-      { icon: '📧', text: 'Email', prompt: 'Verifica questa email e trova informazioni associate' },
-      { icon: '🔗', text: 'Username', prompt: 'Cerca il username "example" su tutte le piattaforme social' },
+      { icon: '👤', textKey: 'quickPerson', promptKey: 'quickPersonPrompt' },
+      { icon: '🌐', textKey: 'quickDomain', promptKey: 'quickDomainOsintPrompt' },
+      { icon: '📧', textKey: 'quickEmail', promptKey: 'quickEmailPrompt' },
+      { icon: '🔗', textKey: 'quickUsername', promptKey: 'quickUsernamePrompt' },
     ],
     search: [
-      { icon: '👤', text: 'Persona', prompt: 'Ricerca approfondita su Elon Musk: carriera, aziende, controversie' },
-      { icon: '🏢', text: 'Azienda', prompt: 'Ricerca completa su OpenAI: storia, prodotti, finanziamenti, team' },
-      { icon: '📰', text: 'Notizie', prompt: 'Ultime notizie sull\'intelligenza artificiale: sviluppi e impatti' },
-      { icon: '⚖️', text: 'Confronto', prompt: 'Confronta Python vs Java: performance, uso, ecosistema, futuro' },
+      { icon: '👤', textKey: 'quickSearchPerson', promptKey: 'quickSearchPersonPrompt' },
+      { icon: '🏢', textKey: 'quickSearchCompany', promptKey: 'quickSearchCompanyPrompt' },
+      { icon: '📰', textKey: 'quickSearchNews', promptKey: 'quickSearchNewsPrompt' },
+      { icon: '⚖️', textKey: 'quickSearchCompare', promptKey: 'quickSearchComparePrompt' },
     ],
   };
 
   const container = document.getElementById('quick-actions');
   const items = actions[state.currentMode] || actions.general;
-  container.innerHTML = items.map(a =>
-    `<button class="quick-btn" onclick="quickAction('${a.prompt.replace(/'/g, "\\'")}')">${a.icon} ${a.text}</button>`
-  ).join('');
+  container.innerHTML = items.map(a => {
+    const text = typeof t === 'function' ? t(a.textKey) : a.textKey;
+    const prompt = typeof t === 'function' ? t(a.promptKey) : a.promptKey;
+    return `<button class="quick-btn" onclick="quickAction('${prompt.replace(/'/g, "\\'")}')">${a.icon} ${text}</button>`;
+  }).join('');
 }
 
 // ─── Chat Management ───
