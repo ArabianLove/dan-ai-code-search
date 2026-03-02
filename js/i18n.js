@@ -266,6 +266,38 @@ I tool necessari vengono installati automaticamente.`,
     offlineTitle: 'Modalità Offline',
     serverTooltipConnected: 'Server connesso',
     serverTooltipOffline: 'Server offline — modalità locale',
+
+    // Guide
+    guideTitle: 'Guida Funzionalità',
+    guideSubtitle: 'Scopri tutto quello che Dan AI può fare',
+    guideChat: 'Chat AI Multimodale',
+    guideChatDesc: 'Conversa con un\'intelligenza artificiale avanzata in 5 modalità specializzate. Ogni modalità ha un sistema di istruzioni ottimizzato per il tipo di richiesta. Puoi scrivere o parlare usando il microfono integrato, e Dan AI può leggere le risposte ad alta voce in 6 lingue diverse, e molto altro.',
+    guideCoding: 'Coding Avanzato',
+    guideCodingDesc: 'Genera codice completo e production-ready in qualsiasi linguaggio: Python, Java, JavaScript, TypeScript, C, C++, Go, Rust, Ruby, PHP, Bash, SQL. Fai debug, ottimizza, converti tra linguaggi, e ottieni spiegazioni dettagliate, e molto altro.',
+    guideAnalysis: 'Analisi File e Steganografia',
+    guideAnalysisDesc: 'Analizza file di qualsiasi tipo: estrai metadati, cerca contenuti nascosti con tecniche di steganografia, decodifica dati embedded, analisi forense digitale, e molto altro.',
+    guideOsint: 'OSINT (Open Source Intelligence)',
+    guideOsintDesc: 'Ricerche intelligence su fonti aperte: cerca persone, analizza domini e siti web, verifica indirizzi email, traccia username su più piattaforme, analisi IP e geolocalizzazione, e molto altro.',
+    guideSearch: 'Deep Search',
+    guideSearchDesc: 'Motore di ricerca AI avanzato che analizza multiple fonti, incrocia dati, verifica fatti e produce report approfonditi, e molto altro.',
+    guideTerminal: 'Terminale Integrato',
+    guideTerminalDesc: 'Terminale stile Termux/VS Code Shell connesso a una sandbox server-side. Esegui comandi reali, compila codice, usa tool di analisi con auto-installazione automatica, e molto altro.',
+    guideMultilang: 'Multilingua',
+    guideMultilangDesc: 'Input vocale e sintesi vocale in 6 lingue: Italiano, Inglese, Francese, Tedesco, Spagnolo e Arabo. L\'interfaccia è completamente tradotta in tutte le 6 lingue.',
+    guideExport: 'Esportazione',
+    guideExportDesc: 'Esporta le tue conversazioni in formato Testo, JSON, Markdown o PDF. Puoi esportare una singola conversazione o tutte insieme. I dati sono sempre tuoi.',
+    guideOffline: 'Modalità Offline',
+    guideOfflineDesc: 'Le conversazioni vengono salvate localmente e sono accessibili anche senza connessione internet. I messaggi inviati offline vengono sincronizzati automaticamente.',
+    guideNotifications: 'Notifiche',
+    guideNotificationsDesc: 'Ricevi notifiche quando Dan AI completa una risposta in background o quando un comando nel terminale termina l\'esecuzione.',
+    guideTheme: 'Tema Chiaro/Scuro',
+    guideThemeDesc: 'Scegli tra il tema Cyber Dark per uso notturno e il tema Chiaro per uso diurno. La scelta viene salvata automaticamente.',
+    guidePrivacy: 'Privacy e GDPR',
+    guidePrivacyDesc: 'Piena conformità al Regolamento (UE) 2016/679 (GDPR). Diritto alla cancellazione di tutti i dati in qualsiasi momento.',
+    guideGodMode: 'God Mode',
+    guideGodModeDesc: 'Modalità avanzata riservata: risposte senza limiti, parametri LLM potenziati, sandbox senza restrizioni, output illimitato.',
+    guideCrossPlat: 'Cross-Platform',
+    guideCrossPlatDesc: 'Disponibile come app nativa per iOS e Android, come PWA installabile, e come sito web. Tutte le piattaforme condividono lo stesso backend, e molto altro.',
   },
 
   en: {
@@ -499,6 +531,38 @@ Required tools are installed automatically.`,
     offlineTitle: 'Offline Mode',
     serverTooltipConnected: 'Server connected',
     serverTooltipOffline: 'Server offline — local mode',
+
+    // Guide
+    guideTitle: 'Feature Guide',
+    guideSubtitle: 'Discover everything Dan AI can do',
+    guideChat: 'Multimodal AI Chat',
+    guideChatDesc: 'Chat with an advanced AI in 5 specialized modes. Each mode has an optimized instruction system. You can type or speak using the built-in microphone, and Dan AI can read responses aloud in 6 different languages, and much more.',
+    guideCoding: 'Advanced Coding',
+    guideCodingDesc: 'Generate complete, production-ready code in any language: Python, Java, JavaScript, TypeScript, C, C++, Go, Rust, Ruby, PHP, Bash, SQL. Debug, optimize, convert between languages, and get detailed explanations, and much more.',
+    guideAnalysis: 'File Analysis & Steganography',
+    guideAnalysisDesc: 'Analyze any file type: extract metadata, search for hidden content with steganography techniques, decode embedded data, digital forensics, and much more.',
+    guideOsint: 'OSINT (Open Source Intelligence)',
+    guideOsintDesc: 'Open source intelligence research: search people, analyze domains and websites, verify email addresses, track usernames across platforms, IP analysis and geolocation, and much more.',
+    guideSearch: 'Deep Search',
+    guideSearchDesc: 'Advanced AI search engine that analyzes multiple sources, cross-references data, fact-checks and produces in-depth reports, and much more.',
+    guideTerminal: 'Integrated Terminal',
+    guideTerminalDesc: 'Termux/VS Code Shell-style terminal connected to a server-side sandbox. Execute real commands, compile code, use analysis tools with automatic auto-installation, and much more.',
+    guideMultilang: 'Multilingual',
+    guideMultilangDesc: 'Voice input and text-to-speech in 6 languages: Italian, English, French, German, Spanish and Arabic. The interface is fully translated in all 6 languages.',
+    guideExport: 'Export',
+    guideExportDesc: 'Export your conversations in Text, JSON, Markdown or PDF format. Export a single conversation or all of them. Your data is always yours.',
+    guideOffline: 'Offline Mode',
+    guideOfflineDesc: 'Conversations are saved locally and accessible even without internet. Messages sent offline are automatically synced when connection returns.',
+    guideNotifications: 'Notifications',
+    guideNotificationsDesc: 'Receive notifications when Dan AI completes a response in the background or when a terminal command finishes execution.',
+    guideTheme: 'Light/Dark Theme',
+    guideThemeDesc: 'Choose between Cyber Dark theme for night use and Light theme for daytime. Your choice is automatically saved.',
+    guidePrivacy: 'Privacy & GDPR',
+    guidePrivacyDesc: 'Full compliance with Regulation (EU) 2016/679 (GDPR). Right to delete all data at any time.',
+    guideGodMode: 'God Mode',
+    guideGodModeDesc: 'Reserved advanced mode: unlimited responses, enhanced LLM parameters, unrestricted sandbox, unlimited output.',
+    guideCrossPlat: 'Cross-Platform',
+    guideCrossPlatDesc: 'Available as a native app for iOS and Android, as an installable PWA, and as a website. All platforms share the same backend, and much more.',
   },
 
   fr: {
@@ -732,6 +796,37 @@ Les outils nécessaires sont installés automatiquement.`,
     offlineTitle: 'Mode Hors Ligne',
     serverTooltipConnected: 'Serveur connecté',
     serverTooltipOffline: 'Serveur hors ligne — mode local',
+
+    guideTitle: 'Guide des fonctionnalités',
+    guideSubtitle: 'Découvrez tout ce que Dan AI peut faire',
+    guideChat: 'Chat IA Multimodal',
+    guideChatDesc: 'Conversez avec une IA avancée en 5 modes spécialisés. Vous pouvez écrire ou parler, et Dan AI peut lire les réponses à voix haute en 6 langues, et bien plus encore.',
+    guideCoding: 'Codage Avancé',
+    guideCodingDesc: 'Générez du code complet et prêt pour la production dans n\'importe quel langage. Déboguez, optimisez, convertissez entre langages, et bien plus encore.',
+    guideAnalysis: 'Analyse de Fichiers et Stéganographie',
+    guideAnalysisDesc: 'Analysez tout type de fichier : métadonnées, contenu caché, stéganographie, analyse forensique numérique, et bien plus encore.',
+    guideOsint: 'OSINT (Renseignement Open Source)',
+    guideOsintDesc: 'Recherches sur sources ouvertes : personnes, domaines, emails, noms d\'utilisateur, analyse IP et géolocalisation, et bien plus encore.',
+    guideSearch: 'Recherche Profonde',
+    guideSearchDesc: 'Moteur de recherche IA avancé qui analyse plusieurs sources, croise les données et produit des rapports approfondis, et bien plus encore.',
+    guideTerminal: 'Terminal Intégré',
+    guideTerminalDesc: 'Terminal connecté à un sandbox serveur. Exécutez des commandes réelles avec auto-installation des outils, et bien plus encore.',
+    guideMultilang: 'Multilingue',
+    guideMultilangDesc: 'Entrée vocale et synthèse vocale en 6 langues. L\'interface est entièrement traduite dans les 6 langues.',
+    guideExport: 'Exportation',
+    guideExportDesc: 'Exportez vos conversations en Texte, JSON, Markdown ou PDF. Vos données vous appartiennent.',
+    guideOffline: 'Mode Hors Ligne',
+    guideOfflineDesc: 'Les conversations sont sauvegardées localement. Les messages envoyés hors ligne sont synchronisés automatiquement.',
+    guideNotifications: 'Notifications',
+    guideNotificationsDesc: 'Recevez des notifications quand Dan AI termine une réponse en arrière-plan.',
+    guideTheme: 'Thème Clair/Sombre',
+    guideThemeDesc: 'Choisissez entre le thème Cyber Dark et le thème Clair. Votre choix est sauvegardé automatiquement.',
+    guidePrivacy: 'Confidentialité et RGPD',
+    guidePrivacyDesc: 'Pleine conformité au Règlement (UE) 2016/679 (RGPD). Droit à la suppression de toutes les données.',
+    guideGodMode: 'God Mode',
+    guideGodModeDesc: 'Mode avancé réservé : réponses illimitées, paramètres LLM améliorés, sandbox sans restrictions.',
+    guideCrossPlat: 'Cross-Platform',
+    guideCrossPlatDesc: 'Disponible en app native iOS/Android, en PWA installable et en site web, et bien plus encore.',
   },
 
   de: {
@@ -965,6 +1060,37 @@ Benötigte Tools werden automatisch installiert.`,
     offlineTitle: 'Offline-Modus',
     serverTooltipConnected: 'Server verbunden',
     serverTooltipOffline: 'Server offline — lokaler Modus',
+
+    guideTitle: 'Funktionsanleitung',
+    guideSubtitle: 'Entdecken Sie alles, was Dan AI kann',
+    guideChat: 'Multimodale KI-Chat',
+    guideChatDesc: 'Chatten Sie mit einer fortschrittlichen KI in 5 spezialisierten Modi. Sie können tippen oder sprechen, und Dan AI kann Antworten in 6 Sprachen vorlesen, und vieles mehr.',
+    guideCoding: 'Fortgeschrittenes Coding',
+    guideCodingDesc: 'Generieren Sie vollständigen, produktionsreifen Code in jeder Sprache. Debuggen, optimieren, konvertieren Sie zwischen Sprachen, und vieles mehr.',
+    guideAnalysis: 'Dateianalyse und Steganographie',
+    guideAnalysisDesc: 'Analysieren Sie jeden Dateityp: Metadaten, versteckte Inhalte, Steganographie, digitale Forensik, und vieles mehr.',
+    guideOsint: 'OSINT (Open Source Intelligence)',
+    guideOsintDesc: 'Open-Source-Recherchen: Personen, Domains, E-Mails, Benutzernamen, IP-Analyse und Geolokalisierung, und vieles mehr.',
+    guideSearch: 'Tiefensuche',
+    guideSearchDesc: 'Fortschrittliche KI-Suchmaschine, die mehrere Quellen analysiert und tiefgehende Berichte erstellt, und vieles mehr.',
+    guideTerminal: 'Integriertes Terminal',
+    guideTerminalDesc: 'Terminal verbunden mit einer Server-Sandbox. Führen Sie echte Befehle aus mit automatischer Tool-Installation, und vieles mehr.',
+    guideMultilang: 'Mehrsprachig',
+    guideMultilangDesc: 'Spracheingabe und Sprachausgabe in 6 Sprachen. Die Oberfläche ist vollständig in alle 6 Sprachen übersetzt.',
+    guideExport: 'Export',
+    guideExportDesc: 'Exportieren Sie Ihre Gespräche als Text, JSON, Markdown oder PDF. Ihre Daten gehören immer Ihnen.',
+    guideOffline: 'Offline-Modus',
+    guideOfflineDesc: 'Gespräche werden lokal gespeichert. Offline gesendete Nachrichten werden automatisch synchronisiert.',
+    guideNotifications: 'Benachrichtigungen',
+    guideNotificationsDesc: 'Erhalten Sie Benachrichtigungen, wenn Dan AI eine Antwort im Hintergrund abschließt.',
+    guideTheme: 'Hell/Dunkel-Thema',
+    guideThemeDesc: 'Wählen Sie zwischen Cyber Dark und hellem Thema. Ihre Wahl wird automatisch gespeichert.',
+    guidePrivacy: 'Datenschutz und DSGVO',
+    guidePrivacyDesc: 'Volle Konformität mit der Verordnung (EU) 2016/679 (DSGVO). Recht auf Löschung aller Daten.',
+    guideGodMode: 'God Mode',
+    guideGodModeDesc: 'Reservierter erweiterter Modus: unbegrenzte Antworten, verbesserte LLM-Parameter, uneingeschränkte Sandbox.',
+    guideCrossPlat: 'Cross-Platform',
+    guideCrossPlatDesc: 'Verfügbar als native App für iOS/Android, als installierbare PWA und als Website, und vieles mehr.',
   },
 
   es: {
@@ -1198,6 +1324,37 @@ Las herramientas necesarias se instalan automáticamente.`,
     offlineTitle: 'Modo Sin Conexión',
     serverTooltipConnected: 'Servidor conectado',
     serverTooltipOffline: 'Servidor sin conexión — modo local',
+
+    guideTitle: 'Guía de Funcionalidades',
+    guideSubtitle: 'Descubre todo lo que Dan AI puede hacer',
+    guideChat: 'Chat IA Multimodal',
+    guideChatDesc: 'Conversa con una IA avanzada en 5 modos especializados. Puedes escribir o hablar, y Dan AI puede leer las respuestas en voz alta en 6 idiomas, y mucho más.',
+    guideCoding: 'Codificación Avanzada',
+    guideCodingDesc: 'Genera código completo y listo para producción en cualquier lenguaje. Depura, optimiza, convierte entre lenguajes, y mucho más.',
+    guideAnalysis: 'Análisis de Archivos y Esteganografía',
+    guideAnalysisDesc: 'Analiza cualquier tipo de archivo: metadatos, contenido oculto, esteganografía, análisis forense digital, y mucho más.',
+    guideOsint: 'OSINT (Inteligencia de Fuentes Abiertas)',
+    guideOsintDesc: 'Investigaciones en fuentes abiertas: personas, dominios, emails, nombres de usuario, análisis IP y geolocalización, y mucho más.',
+    guideSearch: 'Búsqueda Profunda',
+    guideSearchDesc: 'Motor de búsqueda IA avanzado que analiza múltiples fuentes y produce informes detallados, y mucho más.',
+    guideTerminal: 'Terminal Integrado',
+    guideTerminalDesc: 'Terminal conectado a un sandbox del servidor. Ejecuta comandos reales con auto-instalación de herramientas, y mucho más.',
+    guideMultilang: 'Multilingüe',
+    guideMultilangDesc: 'Entrada de voz y síntesis de voz en 6 idiomas. La interfaz está completamente traducida en los 6 idiomas.',
+    guideExport: 'Exportación',
+    guideExportDesc: 'Exporta tus conversaciones en Texto, JSON, Markdown o PDF. Tus datos siempre son tuyos.',
+    guideOffline: 'Modo Sin Conexión',
+    guideOfflineDesc: 'Las conversaciones se guardan localmente. Los mensajes enviados sin conexión se sincronizan automáticamente.',
+    guideNotifications: 'Notificaciones',
+    guideNotificationsDesc: 'Recibe notificaciones cuando Dan AI completa una respuesta en segundo plano.',
+    guideTheme: 'Tema Claro/Oscuro',
+    guideThemeDesc: 'Elige entre el tema Cyber Dark y el tema Claro. Tu elección se guarda automáticamente.',
+    guidePrivacy: 'Privacidad y RGPD',
+    guidePrivacyDesc: 'Pleno cumplimiento del Reglamento (UE) 2016/679 (RGPD). Derecho a eliminar todos los datos.',
+    guideGodMode: 'God Mode',
+    guideGodModeDesc: 'Modo avanzado reservado: respuestas ilimitadas, parámetros LLM mejorados, sandbox sin restricciones.',
+    guideCrossPlat: 'Cross-Platform',
+    guideCrossPlatDesc: 'Disponible como app nativa para iOS/Android, como PWA instalable y como sitio web, y mucho más.',
   },
 
   ar: {
@@ -1431,6 +1588,37 @@ Las herramientas necesarias se instalan automáticamente.`,
     offlineTitle: 'وضع عدم الاتصال',
     serverTooltipConnected: 'الخادم متصل',
     serverTooltipOffline: 'الخادم غير متصل — وضع محلي',
+
+    guideTitle: 'دليل الميزات',
+    guideSubtitle: 'اكتشف كل ما يمكن لـ Dan AI فعله',
+    guideChat: 'دردشة ذكاء اصطناعي متعددة الوسائط',
+    guideChatDesc: 'تحدث مع ذكاء اصطناعي متقدم في 5 أوضاع متخصصة. يمكنك الكتابة أو التحدث، ويمكن لـ Dan AI قراءة الردود بصوت عالٍ بـ 6 لغات مختلفة، والمزيد.',
+    guideCoding: 'برمجة متقدمة',
+    guideCodingDesc: 'أنشئ كودًا كاملاً وجاهزًا للإنتاج بأي لغة برمجة. تصحيح الأخطاء والتحسين والتحويل بين اللغات، والمزيد.',
+    guideAnalysis: 'تحليل الملفات وإخفاء المعلومات',
+    guideAnalysisDesc: 'حلل أي نوع من الملفات: البيانات الوصفية والمحتوى المخفي وإخفاء المعلومات والتحليل الجنائي الرقمي، والمزيد.',
+    guideOsint: 'OSINT (استخبارات المصادر المفتوحة)',
+    guideOsintDesc: 'أبحاث على المصادر المفتوحة: الأشخاص والنطاقات والبريد الإلكتروني وأسماء المستخدمين وتحليل IP والموقع الجغرافي، والمزيد.',
+    guideSearch: 'بحث عميق',
+    guideSearchDesc: 'محرك بحث ذكاء اصطناعي متقدم يحلل مصادر متعددة وينتج تقارير معمقة، والمزيد.',
+    guideTerminal: 'طرفية مدمجة',
+    guideTerminalDesc: 'طرفية متصلة بصندوق رمل على الخادم. نفذ أوامر حقيقية مع تثبيت تلقائي للأدوات، والمزيد.',
+    guideMultilang: 'متعدد اللغات',
+    guideMultilangDesc: 'إدخال صوتي وتحويل النص إلى كلام بـ 6 لغات. الواجهة مترجمة بالكامل إلى جميع اللغات الست.',
+    guideExport: 'تصدير',
+    guideExportDesc: 'صدّر محادثاتك بتنسيق نصي أو JSON أو Markdown أو PDF. بياناتك ملكك دائمًا.',
+    guideOffline: 'وضع عدم الاتصال',
+    guideOfflineDesc: 'يتم حفظ المحادثات محليًا. تتم مزامنة الرسائل المرسلة بدون اتصال تلقائيًا.',
+    guideNotifications: 'الإشعارات',
+    guideNotificationsDesc: 'تلقَّ إشعارات عندما يكمل Dan AI ردًا في الخلفية.',
+    guideTheme: 'سمة فاتحة/داكنة',
+    guideThemeDesc: 'اختر بين سمة Cyber Dark وسمة فاتحة. يتم حفظ اختيارك تلقائيًا.',
+    guidePrivacy: 'الخصوصية واللائحة العامة لحماية البيانات',
+    guidePrivacyDesc: 'امتثال كامل للائحة (الاتحاد الأوروبي) 2016/679. حق حذف جميع البيانات في أي وقت.',
+    guideGodMode: 'God Mode',
+    guideGodModeDesc: 'وضع متقدم محجوز: ردود غير محدودة، معلمات LLM محسّنة، صندوق رمل بدون قيود.',
+    guideCrossPlat: 'عبر المنصات',
+    guideCrossPlatDesc: 'متاح كتطبيق أصلي لـ iOS وAndroid، كـ PWA قابل للتثبيت، وكموقع ويب، والمزيد.',
   },
 };
 
@@ -1606,42 +1794,12 @@ function updateSettingsLabels() {
   if (sections[0]) sections[0].querySelector('h4').textContent = `⚡ ${t('settingsAdvanced')}`;
   if (sections[1]) sections[1].querySelector('h4').textContent = `🗣️ ${t('settingsVoice')}`;
 
-  // Insert appearance section if not exists
-  let appearanceSection = document.getElementById('settings-appearance-section');
-  if (!appearanceSection && sections[1]) {
-    appearanceSection = document.createElement('div');
-    appearanceSection.className = 'settings-section';
-    appearanceSection.id = 'settings-appearance-section';
-    sections[1].after(appearanceSection);
-  }
-  if (appearanceSection) {
-    appearanceSection.innerHTML = `
-      <h4>🎨 ${t('settingsAppearance')}</h4>
-      <div class="setting-item">
-        <span class="setting-label">${t('settingsTheme')}</span>
-        <select id="theme-select" class="setting-select" onchange="changeTheme(this.value)">
-          <option value="dark">${t('settingsThemeDark')}</option>
-          <option value="light">${t('settingsThemeLight')}</option>
-        </select>
-      </div>
-      <div class="setting-item">
-        <span class="setting-label">${t('settingsUILang')}</span>
-        <select id="ui-lang-select" class="setting-select" onchange="setUILanguage(this.value)">
-          <option value="it">Italiano</option>
-          <option value="en">English</option>
-          <option value="fr">Français</option>
-          <option value="de">Deutsch</option>
-          <option value="es">Español</option>
-          <option value="ar">العربية</option>
-        </select>
-      </div>
-    `;
-    // Set current values
-    const themeSelect = document.getElementById('theme-select');
-    if (themeSelect) themeSelect.value = document.documentElement.dataset.theme || 'dark';
-    const uiLangSelect = document.getElementById('ui-lang-select');
-    if (uiLangSelect) uiLangSelect.value = currentUILang;
-  }
+  // Appearance section is now in HTML (sections[4]), theme/lang selects are set by updateSettingsLabels
+  // Set current values for theme and language selects
+  const themeSelect = document.getElementById('theme-select');
+  if (themeSelect) themeSelect.value = document.documentElement.dataset.theme || 'dark';
+  const uiLangSelect2 = document.getElementById('ui-lang-select');
+  if (uiLangSelect2) uiLangSelect2.value = currentUILang;
 
   // Voice & Language labels
   const voiceSection = sections[1];
@@ -1670,10 +1828,30 @@ function updateSettingsLabels() {
     if (items[4]) items[4].querySelector('.setting-label').textContent = t('settingsExportAll');
   }
 
-  // Info section
+  // Appearance section (from HTML)
   if (sections[4]) {
-    sections[4].querySelector('h4').textContent = `ℹ️ ${t('settingsInfo')}`;
+    sections[4].querySelector('h4').textContent = `🎨 ${t('settingsAppearance')}`;
     const items = sections[4].querySelectorAll('.setting-item');
+    if (items[0]) items[0].querySelector('.setting-label').textContent = t('settingsTheme');
+    if (items[1]) items[1].querySelector('.setting-label').textContent = t('settingsUILang');
+  }
+
+  // Guide section
+  if (sections[5]) {
+    sections[5].querySelector('h4').textContent = `📖 ${t('guideTitle')}`;
+    const guideLabel = sections[5].querySelector('.setting-label');
+    if (guideLabel) guideLabel.textContent = t('guideSubtitle');
+    // If guide is open, refresh its content with new language
+    const guideContent = document.getElementById('guide-content');
+    if (guideContent && guideContent.style.display !== 'none') {
+      if (typeof updateGuideContent === 'function') updateGuideContent();
+    }
+  }
+
+  // Info section
+  if (sections[6]) {
+    sections[6].querySelector('h4').textContent = `ℹ️ ${t('settingsInfo')}`;
+    const items = sections[6].querySelectorAll('.setting-item');
     if (items[0]) items[0].querySelector('.setting-label').textContent = t('settingsVersion');
     if (items[1]) items[1].querySelector('.setting-label').textContent = t('settingsPlatform');
     if (items[2]) items[2].querySelector('.setting-label').textContent = t('settingsServer');

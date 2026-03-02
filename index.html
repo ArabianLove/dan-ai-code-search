@@ -280,6 +280,37 @@
           </div>
         </div>
         <div class="settings-section">
+          <h4>🎨 Aspetto</h4>
+          <div class="setting-item">
+            <span class="setting-label" data-i18n="settings_theme">Tema</span>
+            <select id="theme-select" class="setting-select" onchange="changeTheme(this.value)">
+              <option value="dark">Scuro (Cyber Dark)</option>
+              <option value="light">Chiaro (Light)</option>
+            </select>
+          </div>
+          <div class="setting-item">
+            <span class="setting-label" data-i18n="settings_ui_lang">Lingua interfaccia</span>
+            <select id="ui-lang-select" class="setting-select" onchange="setUILanguage(this.value)">
+              <option value="it">Italiano</option>
+              <option value="en">English</option>
+              <option value="fr">Français</option>
+              <option value="de">Deutsch</option>
+              <option value="es">Español</option>
+              <option value="ar">العربية</option>
+            </select>
+          </div>
+        </div>
+        <div class="settings-section">
+          <h4 data-i18n="guideTitle">📖 Guida Funzionalità</h4>
+          <div class="setting-item" onclick="toggleGuide()">
+            <span class="setting-label" data-i18n="guideSubtitle">Scopri tutto quello che Dan AI può fare</span>
+            <span class="setting-arrow" id="guide-arrow">›</span>
+          </div>
+          <div id="guide-content" class="guide-content" style="display:none;">
+            <!-- Populated dynamically by updateGuideContent() using i18n translations -->
+          </div>
+        </div>
+        <div class="settings-section">
           <h4>ℹ️ Info</h4>
           <div class="setting-item">
             <span class="setting-label">Versione</span>

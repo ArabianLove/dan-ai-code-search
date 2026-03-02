@@ -122,11 +122,88 @@ const MODE_LABELS = {
   search: { name: 'Deep Search', icon: '🔎', hint: 'Ricerche approfondite e furbe su qualsiasi argomento' },
 };
 
+// ─── Offline Cache System ───
+let isOnline = navigator.onLine;
+let offlineQueue = JSON.parse(localStorage.getItem('danai_offline_queue') || '[]');
+
+function updateOfflineBanner() {
+  let banner = document.getElementById('offline-banner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'offline-banner';
+    const chatArea = document.getElementById('chat-area');
+    if (chatArea) chatArea.parentNode.insertBefore(banner, chatArea);
+  }
+  if (!isOnline) {
+    banner.className = 'offline-banner show';
+    banner.innerHTML = '<span class="offline-icon">&#128225;</span> Modalit\u00e0 offline \u2014 Le conversazioni sono salvate localmente';
+  } else if (offlineQueue.length > 0) {
+    banner.className = 'offline-banner show syncing';
+    banner.innerHTML = `<span class="offline-icon">&#128260;</span> Sincronizzazione: ${offlineQueue.length} messaggi in coda`;
+  } else {
+    banner.className = 'offline-banner';
+    banner.innerHTML = '';
+  }
+}
+
+function queueOfflineMessage(msg) {
+  offlineQueue.push(msg);
+  localStorage.setItem('danai_offline_queue', JSON.stringify(offlineQueue));
+  updateOfflineBanner();
+}
+
+async function syncOfflineQueue() {
+  if (!isOnline || offlineQueue.length === 0) return;
+  const queue = [...offlineQueue];
+  offlineQueue = [];
+  localStorage.setItem('danai_offline_queue', '[]');
+  for (const msg of queue) {
+    try {
+      await fetch(`${API_TRPC}/ai.chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ json: { messages: [{ role: 'user', content: msg.content }], mode: msg.mode, godMode: msg.godMode } }),
+      });
+    } catch (e) {
+      offlineQueue.push(msg);
+    }
+  }
+  localStorage.setItem('danai_offline_queue', JSON.stringify(offlineQueue));
+  updateOfflineBanner();
+}
+
+window.addEventListener('online', () => {
+  isOnline = true;
+  updateOfflineBanner();
+  checkServerConnection();
+  syncOfflineQueue();
+  showToast('Connessione ripristinata');
+});
+
+window.addEventListener('offline', () => {
+  isOnline = false;
+  state.serverConnected = false;
+  updateConnectionStatus();
+  updateOfflineBanner();
+  showToast('Sei offline \u2014 modalit\u00e0 locale attiva');
+});
+
+// Listen for SW sync messages
+if (navigator.serviceWorker) {
+  navigator.serviceWorker.addEventListener('message', (event) => {
+    if (event.data?.type === 'SYNC_OFFLINE_MESSAGES') {
+      syncOfflineQueue();
+    }
+  });
+}
+
 // ─── Init ───
 document.addEventListener('DOMContentLoaded', () => {
   loadUILanguage();
   loadTheme();
   loadState();
+  isOnline = navigator.onLine;
   if (state.isLoggedIn) {
     showApp();
     checkServerConnection();
@@ -136,6 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupVoiceRecognition();
   requestNotificationPermission();
   applyTranslations();
+  updateOfflineBanner();
 });
 
 function loadState() {
@@ -588,9 +666,16 @@ async function sendMessage() {
     }
   } catch (error) {
     typingEl.remove();
-    const errorMsg = 'Mi dispiace, si è verificato un errore. Riprova.';
-    chat.messages.push({ role: 'assistant', content: errorMsg });
-    appendMessageToUI('assistant', errorMsg, chat.messages.length - 1);
+    if (!isOnline) {
+      const offlineMsg = 'Sei offline. Il tuo messaggio \u00e8 stato salvato e verr\u00e0 inviato quando tornerai online.';
+      chat.messages.push({ role: 'assistant', content: offlineMsg });
+      appendMessageToUI('assistant', offlineMsg, chat.messages.length - 1);
+      queueOfflineMessage({ content: text, mode: state.currentMode, godMode: state.godMode, timestamp: Date.now() });
+    } else {
+      const errorMsg = 'Mi dispiace, si \u00e8 verificato un errore. Riprova.';
+      chat.messages.push({ role: 'assistant', content: errorMsg });
+      appendMessageToUI('assistant', errorMsg, chat.messages.length - 1);
+    }
     saveState();
   }
 
@@ -1319,3 +1404,47 @@ document.addEventListener('keydown', (e) => {
     handleLogin();
   }
 });
+
+// ─── Guide / Feature Info ───
+function toggleGuide() {
+  const content = document.getElementById('guide-content');
+  const arrow = document.getElementById('guide-arrow');
+  if (!content) return;
+  if (content.style.display === 'none' || !content.style.display) {
+    content.style.display = 'block';
+    if (arrow) arrow.textContent = '▾';
+    updateGuideContent();
+  } else {
+    content.style.display = 'none';
+    if (arrow) arrow.textContent = '›';
+  }
+}
+
+function updateGuideContent() {
+  const container = document.getElementById('guide-content');
+  if (!container) return;
+
+  const sections = [
+    { icon: '💬', key: 'guideChat', descKey: 'guideChatDesc' },
+    { icon: '⌨️', key: 'guideCoding', descKey: 'guideCodingDesc' },
+    { icon: '🔬', key: 'guideAnalysis', descKey: 'guideAnalysisDesc' },
+    { icon: '🕵️', key: 'guideOsint', descKey: 'guideOsintDesc' },
+    { icon: '🔎', key: 'guideSearch', descKey: 'guideSearchDesc' },
+    { icon: '💻', key: 'guideTerminal', descKey: 'guideTerminalDesc' },
+    { icon: '🌐', key: 'guideMultilang', descKey: 'guideMultilangDesc' },
+    { icon: '📁', key: 'guideExport', descKey: 'guideExportDesc' },
+    { icon: '📡', key: 'guideOffline', descKey: 'guideOfflineDesc' },
+    { icon: '🔔', key: 'guideNotifications', descKey: 'guideNotificationsDesc' },
+    { icon: '🌓', key: 'guideTheme', descKey: 'guideThemeDesc' },
+    { icon: '🔒', key: 'guidePrivacy', descKey: 'guidePrivacyDesc' },
+    { icon: '⚡', key: 'guideGodMode', descKey: 'guideGodModeDesc' },
+    { icon: '📱', key: 'guideCrossPlat', descKey: 'guideCrossPlatDesc' },
+  ];
+
+  container.innerHTML = sections.map(s => `
+    <div class="guide-block">
+      <h5>${s.icon} ${t(s.key)}</h5>
+      <p>${t(s.descKey)}</p>
+    </div>
+  `).join('');
+}

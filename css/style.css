@@ -923,6 +923,36 @@ body.god-mode .input-wrapper:focus-within { border-color: var(--god-gold); }
   .top-bar { display: none !important; }
 }
 
+/* ─── Offline Banner ─── */
+.offline-banner {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  margin: 0 12px 8px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--error);
+  animation: offlinePulse 2s ease-in-out infinite;
+  z-index: 50;
+}
+.offline-banner.show {
+  display: flex;
+}
+.offline-banner.syncing {
+  background: var(--warning);
+  animation: none;
+}
+.offline-icon {
+  font-size: 16px;
+}
+@keyframes offlinePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
 /* ─── RTL Support (Arabic) ─── */
 [dir="rtl"] .sidebar { border-right: none; border-left: 1px solid var(--border); }
 [dir="rtl"] .message.user { flex-direction: row; }
@@ -939,4 +969,31 @@ body.god-mode .input-wrapper:focus-within { border-color: var(--god-gold); }
 @media (max-width: 768px) {
   [dir="rtl"] .sidebar { left: auto; right: 0; transform: translateX(100%); }
   [dir="rtl"] .sidebar.open { transform: translateX(0); }
+}
+
+/* ─── Guide / Feature Info ─── */
+.guide-content {
+  padding: 8px 0;
+}
+
+.guide-block {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+}
+
+.guide-block h5 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+  margin: 0 0 6px 0;
+}
+
+.guide-block p {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--fg-muted);
+  margin: 0;
 }
