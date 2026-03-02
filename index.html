@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0D1117">
+  <meta name="description" content="Dan AI Code & Search — Assistente AI avanzato per coding, debugging, analisi file, steganografia e ricerche OSINT">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Dan AI">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <title>Dan AI Code & Search</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/chat.css">
+  <link rel="stylesheet" href="css/terminal.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <!-- Splash / Login Screen -->
+  <div id="login-screen" class="screen active">
+    <div class="login-container">
+      <div class="login-logo">
+        <div class="logo-circle">
+          <span class="logo-text">&lt;/&gt;</span>
+        </div>
+        <h1 class="login-title">Dan AI</h1>
+        <p class="login-subtitle">Code & Search — AI Assistant</p>
+      </div>
+      <div class="login-features">
+        <div class="feature-item"><span class="feature-icon">⌨️</span> Coding avanzato stile Codex</div>
+        <div class="feature-item"><span class="feature-icon">🔍</span> Analisi file e steganografia</div>
+        <div class="feature-item"><span class="feature-icon">🌐</span> Ricerche OSINT su fonti aperte</div>
+        <div class="feature-item"><span class="feature-icon">💻</span> Terminale con sandbox e auto-install</div>
+      </div>
+      <div class="login-form">
+        <input type="text" id="login-username" placeholder="Username" class="login-input" autocomplete="off">
+        <input type="password" id="login-password" placeholder="Password" class="login-input">
+        <button id="login-btn" class="login-button" onclick="handleLogin()">
+          <span>Accedi</span>
+        </button>
+        <p id="login-error" class="login-error"></p>
+          <p class="login-note">Accesso riservato — Dati sincronizzati con il server</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div id="app-screen" class="screen">
+    <!-- Sidebar (desktop) -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <span class="logo-mini">&lt;/&gt;</span>
+          <span class="sidebar-title" id="sidebar-title">Dan AI</span>
+        </div>
+        <button class="sidebar-toggle" onclick="toggleSidebar()" title="Chiudi sidebar">✕</button>
+      </div>
+      <button class="new-chat-btn" onclick="newChat()">
+        <span>+</span> Nuova Chat
+      </button>
+      <div class="sidebar-modes">
+        <button class="mode-btn active" data-mode="general" onclick="setMode('general')">💬 Generale</button>
+        <button class="mode-btn" data-mode="coding" onclick="setMode('coding')">⌨️ Coding</button>
+        <button class="mode-btn" data-mode="analysis" onclick="setMode('analysis')">🔬 Analisi</button>
+        <button class="mode-btn" data-mode="osint" onclick="setMode('osint')">🕵️ OSINT</button>
+        <button class="mode-btn" data-mode="search" onclick="setMode('search')">🔎 Deep Search</button>
+      </div>
+      <div class="sidebar-history" id="sidebar-history">
+        <p class="history-label">Cronologia</p>
+        <div id="history-list"></div>
+      </div>
+      <div class="sidebar-footer">
+        <button class="sidebar-footer-btn" onclick="openSettings()">⚙️ Impostazioni</button>
+        <button class="sidebar-footer-btn" onclick="openTerminal()">💻 Terminale</button>
+        <button class="sidebar-footer-btn god-mode-btn" id="god-mode-sidebar-btn" onclick="openGodMode()">⚡ God Mode</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Bar (mobile) -->
+      <header class="top-bar">
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+        <h2 class="top-bar-title" id="top-bar-title">Dan AI</h2>
+        <button class="top-bar-action" onclick="newChat()">+</button>
+      </header>
+
+      <!-- Chat Area -->
+      <div class="chat-area" id="chat-area">
+        <div class="chat-welcome" id="chat-welcome">
+          <div class="welcome-logo">
+            <div class="welcome-circle">
+              <span>&lt;/&gt;</span>
+            </div>
+          </div>
+          <h2 class="welcome-title" id="welcome-title">Dan AI</h2>
+          <p class="welcome-subtitle" id="welcome-subtitle">Modalità: Generale</p>
+          <p class="welcome-hint" id="welcome-hint">Chiedimi qualsiasi cosa, sono qui per aiutarti</p>
+          <div class="quick-actions" id="quick-actions">
+            <button class="quick-btn" onclick="quickAction('Scrivi una funzione Python per ordinare una lista')">🐍 Codice Python</button>
+            <button class="quick-btn" onclick="quickAction('Analizza i metadati di un file immagine')">📸 Analisi File</button>
+            <button class="quick-btn" onclick="quickAction('Cerca informazioni su un dominio web')">🌐 Ricerca Dominio</button>
+            <button class="quick-btn" onclick="quickAction('Fai debug di questo codice JavaScript')">🐛 Debug Codice</button>
+          </div>
+        </div>
+        <div class="messages-container" id="messages-container"></div>
+      </div>
+
+      <!-- Input Bar -->
+      <div class="input-bar">
+        <div class="input-wrapper">
+          <button class="voice-btn" id="voice-btn" onclick="toggleVoice()" title="Input vocale">🎤</button>
+          <textarea id="chat-input" placeholder="Scrivi o parla..." rows="1" onkeydown="handleInputKey(event)" oninput="autoResize(this)"></textarea>
+          <button class="send-btn" id="send-btn" onclick="sendMessage()" disabled>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Tab Bar -->
+      <nav class="tab-bar">
+        <button class="tab-btn active" data-tab="chat" onclick="switchTab('chat')">
+          <span class="tab-icon">💬</span>
+          <span class="tab-label">Chat</span>
+        </button>
+        <button class="tab-btn" data-tab="tools" onclick="switchTab('tools')">
+          <span class="tab-icon">🛠️</span>
+          <span class="tab-label">Strumenti</span>
+        </button>
+        <button class="tab-btn" data-tab="terminal" onclick="switchTab('terminal')">
+          <span class="tab-icon">💻</span>
+          <span class="tab-label">Terminale</span>
+        </button>
+        <button class="tab-btn" data-tab="settings" onclick="switchTab('settings')">
+          <span class="tab-icon">⚙️</span>
+          <span class="tab-label">Impostazioni</span>
+        </button>
+      </nav>
+    </main>
+
+    <!-- Tools Panel -->
+    <div id="tools-panel" class="panel">
+      <div class="panel-header">
+        <h3>Strumenti</h3>
+        <button class="panel-close" onclick="closePanel('tools-panel')">✕</button>
+      </div>
+      <div class="panel-content">
+        <div class="tools-grid">
+          <div class="tool-section">
+            <h4 class="tool-section-title">⌨️ Coding</h4>
+            <button class="tool-btn" onclick="useTool('Genera codice completo per: ')">Genera Codice</button>
+            <button class="tool-btn" onclick="useTool('Fai debug di questo codice:\n')">Debug Codice</button>
+            <button class="tool-btn" onclick="useTool('Spiega questo codice in dettaglio:\n')">Spiega Codice</button>
+            <button class="tool-btn" onclick="useTool('Converti questo codice da un linguaggio all\'altro:\n')">Converti Codice</button>
+            <button class="tool-btn" onclick="useTool('Ottimizza questo codice per le performance:\n')">Ottimizza</button>
+            <button class="tool-btn" onclick="useTool('Scrivi i test unitari per:\n')">Genera Test</button>
+          </div>
+          <div class="tool-section">
+            <h4 class="tool-section-title">🔬 Analisi</h4>
+            <button class="tool-btn" onclick="useTool('Analizza questo file in profondità, cerca contenuti nascosti e metadati: ')">Analizza File</button>
+            <button class="tool-btn" onclick="useTool('Estrai tutti i metadati da questo file: ')">Estrai Metadati</button>
+            <button class="tool-btn" onclick="useTool('Cerca steganografia e dati nascosti in: ')">Steganografia</button>
+            <button class="tool-btn" onclick="useTool('Decodifica questo contenuto (base64, hex, binario): ')">Decodifica</button>
+            <button class="tool-btn" onclick="useTool('Analizza gli header e la struttura binaria di: ')">Analisi Binaria</button>
+          </div>
+          <div class="tool-section">
+            <h4 class="tool-section-title">🕵️ OSINT</h4>
+            <button class="tool-btn" onclick="useTool('Cerca informazioni complete su questa persona: ')">Cerca Persona</button>
+            <button class="tool-btn" onclick="useTool('Analizza questo dominio in profondità: ')">Analizza Dominio</button>
+            <button class="tool-btn" onclick="useTool('Verifica questa email e trova informazioni associate: ')">Verifica Email</button>
+            <button class="tool-btn" onclick="useTool('Cerca questo username su tutte le piattaforme: ')">Cerca Username</button>
+            <button class="tool-btn" onclick="useTool('Traccia questo indirizzo IP: ')">Traccia IP</button>
+          </div>
+          <div class="tool-section">
+            <h4 class="tool-section-title">🔎 Deep Search</h4>
+            <button class="tool-btn" onclick="useTool('Ricerca approfondita su questa persona, incrocia tutte le fonti: ')">Ricerca Persona</button>
+            <button class="tool-btn" onclick="useTool('Ricerca approfondita su questa azienda/organizzazione: ')">Ricerca Azienda</button>
+            <button class="tool-btn" onclick="useTool('Ricerca approfondita su questo argomento, aggrega tutte le fonti: ')">Ricerca Argomento</button>
+            <button class="tool-btn" onclick="useTool('Ricerca e confronta prodotti/servizi: ')">Confronta Prodotti</button>
+            <button class="tool-btn" onclick="useTool('Ricerca notizie recenti e analizza: ')">Ricerca Notizie</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Terminal Panel -->
+    <div id="terminal-panel" class="panel">
+      <div class="panel-header terminal-header">
+        <h3 id="terminal-title">💻 Dan AI Terminal</h3>
+        <div class="terminal-actions">
+          <button class="terminal-action-btn" onclick="clearTerminal()">Clear</button>
+          <button class="panel-close" onclick="closePanel('terminal-panel')">✕</button>
+        </div>
+      </div>
+      <div class="terminal-output" id="terminal-output">
+        <pre class="terminal-line system" id="terminal-welcome">╔══════════════════════════════════════╗
+║   Dan AI Terminal v1.0               ║
+║   Sandbox con auto-install tools     ║
+║   Digita 'help' per i comandi        ║
+╚══════════════════════════════════════╝</pre>
+      </div>
+      <div class="terminal-input-bar">
+        <span class="terminal-prompt">$</span>
+        <input type="text" id="terminal-input" placeholder="Digita un comando..." onkeydown="handleTerminalKey(event)" autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div id="settings-panel" class="panel">
+      <div class="panel-header">
+        <h3>Impostazioni</h3>
+        <button class="panel-close" onclick="closePanel('settings-panel')">✕</button>
+      </div>
+      <div class="panel-content settings-content">
+        <div class="settings-section">
+          <h4>⚡ Modalità Avanzata</h4>
+          <div class="setting-item" onclick="openGodMode()">
+            <span class="setting-label" id="god-mode-label">Attiva God Mode</span>
+            <span class="setting-value" id="god-mode-status">Disattivato</span>
+          </div>
+        </div>
+        <div class="settings-section">
+          <h4>🗣️ Voce e Lingua</h4>
+          <div class="setting-item">
+            <span class="setting-label">Lingua vocale</span>
+            <select id="voice-lang-select" class="setting-select" onchange="changeVoiceLang(this.value)">
+              <option value="it">Italiano</option>
+              <option value="en">English</option>
+              <option value="fr">Français</option>
+              <option value="de">Deutsch</option>
+              <option value="es">Español</option>
+              <option value="ar">العربية</option>
+            </select>
+          </div>
+          <div class="setting-item">
+            <span class="setting-label">Sintesi vocale (TTS)</span>
+            <label class="toggle">
+              <input type="checkbox" id="tts-toggle" checked onchange="toggleTTS(this.checked)">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+        <div class="settings-section">
+          <h4>🔒 Privacy e Dati (GDPR)</h4>
+          <div class="setting-item" onclick="showPrivacyInfo()">
+            <span class="setting-label">Informativa Privacy</span>
+            <span class="setting-arrow">›</span>
+          </div>
+          <div class="setting-item danger" onclick="deleteAllData()">
+            <span class="setting-label">Cancella tutti i dati</span>
+            <span class="setting-arrow">›</span>
+          </div>
+        </div>
+        <div class="settings-section">
+          <h4>📤 Esportazione</h4>
+          <div class="setting-item" onclick="exportCurrentChat('txt')">
+            <span class="setting-label">Esporta chat corrente (TXT)</span>
+            <span class="setting-arrow">›</span>
+          </div>
+          <div class="setting-item" onclick="exportCurrentChat('md')">
+            <span class="setting-label">Esporta chat corrente (Markdown)</span>
+            <span class="setting-arrow">›</span>
+          </div>
+          <div class="setting-item" onclick="exportCurrentChat('pdf')">
+            <span class="setting-label">Esporta chat corrente (PDF)</span>
+            <span class="setting-arrow">›</span>
+          </div>
+          <div class="setting-item" onclick="exportCurrentChat('json')">
+            <span class="setting-label">Esporta chat corrente (JSON)</span>
+            <span class="setting-arrow">›</span>
+          </div>
+          <div class="setting-item" onclick="exportAllChats()">
+            <span class="setting-label">Esporta TUTTE le conversazioni</span>
+            <span class="setting-arrow">›</span>
+          </div>
+        </div>
+        <div class="settings-section">
+          <h4>ℹ️ Info</h4>
+          <div class="setting-item">
+            <span class="setting-label">Versione</span>
+            <span class="setting-value">2.0.0 PWA</span>
+          </div>
+          <div class="setting-item">
+            <span class="setting-label">Piattaforma</span>
+            <span class="setting-value">Web / PWA</span>
+          </div>
+          <div class="setting-item">
+            <span class="setting-label">Server</span>
+            <span class="setting-value" id="connection-status-text">Verifica...</span>
+          </div>
+          <div class="setting-item danger" onclick="handleLogout()">
+            <span class="setting-label">Esci dall'account</span>
+            <span class="setting-arrow">›</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- God Mode Dialog -->
+    <div id="god-mode-dialog" class="modal-overlay" onclick="closeGodModeDialog(event)">
+      <div class="modal-dialog god-mode-dialog">
+        <div class="god-mode-icon">🔐</div>
+        <h3 class="god-mode-title">GOD MODE</h3>
+        <p class="god-mode-subtitle" id="god-mode-subtitle">Inserisci il tuo identificativo</p>
+        <input type="text" id="god-mode-input" class="god-mode-input" placeholder="Username" autocomplete="off">
+        <p class="god-mode-error" id="god-mode-error"></p>
+        <div class="god-mode-buttons">
+          <button class="god-mode-confirm" onclick="submitGodMode()">Conferma</button>
+          <button class="god-mode-cancel" onclick="closeGodModeDialog()">Annulla</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Privacy Dialog -->
+    <div id="privacy-dialog" class="modal-overlay" onclick="closePrivacyDialog(event)">
+      <div class="modal-dialog privacy-dialog">
+        <h3>Informativa Privacy — GDPR</h3>
+        <div class="privacy-text">
+          <p><strong>INFORMATIVA SULLA PRIVACY — DAN AI CODE & SEARCH</strong></p>
+          <p>Ai sensi del Regolamento (UE) 2016/679 (GDPR)</p>
+          <p><strong>DATI RACCOLTI</strong></p>
+          <ul>
+            <li>Dati di autenticazione (username)</li>
+            <li>Conversazioni con l'assistente AI</li>
+            <li>Comandi eseguiti nel terminale sandbox</li>
+          </ul>
+          <p><strong>DIRITTI DELL'INTERESSATO (Artt. 15-22 GDPR)</strong></p>
+          <ul>
+            <li>Diritto di accesso ai propri dati</li>
+            <li>Diritto di rettifica</li>
+            <li>Diritto alla cancellazione ("diritto all'oblio", Art. 17)</li>
+            <li>Diritto alla portabilità dei dati</li>
+            <li>Diritto di revocare il consenso</li>
+          </ul>
+          <p><strong>CANCELLAZIONE DEI DATI</strong></p>
+          <p>Puoi cancellare tutti i tuoi dati in qualsiasi momento tramite Impostazioni → Cancella tutti i dati.</p>
+          <p><strong>CONSERVAZIONE</strong></p>
+          <p>I dati sono conservati sia localmente nel browser (localStorage) sia sul server backend per la sincronizzazione tra dispositivi. Puoi cancellare tutti i dati in qualsiasi momento.</p>
+        </div>
+        <button class="privacy-close-btn" onclick="closePrivacyDialog()">Chiudi</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
