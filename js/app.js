@@ -304,21 +304,36 @@ async function syncFromServer() {
   } catch (e) { /* offline mode */ }
 }
 
-// ─── Login ───
-function handleLogin() {
+// ─── Login / Register ───
+function showRegisterForm() {
+  document.getElementById('login-form-section').style.display = 'none';
+  document.getElementById('register-form-section').style.display = 'flex';
+  document.getElementById('register-error').textContent = '';
+}
+
+function showLoginForm() {
+  document.getElementById('register-form-section').style.display = 'none';
+  document.getElementById('login-form-section').style.display = 'flex';
+  document.getElementById('login-error').textContent = '';
+}
+
+async function handleLogin() {
   const username = document.getElementById('login-username').value.trim();
   const password = document.getElementById('login-password').value.trim();
   const errorEl = document.getElementById('login-error');
+  const loginBtn = document.getElementById('login-btn');
 
   if (!username || !password) {
     errorEl.textContent = 'Inserisci username e password';
     return;
   }
 
+  // God Mode hardcoded check (manteniamo per retrocompatibilità)
   if (username === 'DRAPETTI' && password === '696969') {
     state.isLoggedIn = true;
     state.username = username;
     state.godMode = true;
+    state.sessionToken = null;
     saveState();
     showApp();
     activateGodModeUI();
@@ -327,13 +342,114 @@ function handleLogin() {
     return;
   }
 
-  state.isLoggedIn = true;
-  state.username = username;
-  state.godMode = false;
-  saveState();
-  showApp();
-  checkServerConnection();
-  syncFromServer();
+  // Tentativo login via API server
+  loginBtn.disabled = true;
+  loginBtn.innerHTML = '<span class="login-loading"></span>';
+  errorEl.textContent = '';
+
+  try {
+    const res = await fetch(`${API_BASE}/api/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ username, password }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      errorEl.textContent = data.error || 'Login fallito';
+      loginBtn.disabled = false;
+      loginBtn.innerHTML = '<span>Accedi</span>';
+      return;
+    }
+
+    // Login riuscito
+    state.isLoggedIn = true;
+    state.username = data.user?.name || username;
+    state.sessionToken = data.app_session_id || null;
+    state.godMode = false;
+    saveState();
+    showApp();
+    checkServerConnection();
+    syncFromServer();
+  } catch (e) {
+    // Se il server non è raggiungibile, fallback locale
+    errorEl.textContent = 'Server non raggiungibile. Riprova.';
+    loginBtn.disabled = false;
+    loginBtn.innerHTML = '<span>Accedi</span>';
+  }
+}
+
+async function handleRegister() {
+  const username = document.getElementById('register-username').value.trim();
+  const email = document.getElementById('register-email').value.trim();
+  const password = document.getElementById('register-password').value;
+  const passwordConfirm = document.getElementById('register-password-confirm').value;
+  const errorEl = document.getElementById('register-error');
+  const registerBtn = document.getElementById('register-btn');
+
+  errorEl.textContent = '';
+
+  if (!username || !password) {
+    errorEl.textContent = 'Username e password sono obbligatori';
+    return;
+  }
+
+  if (username.length < 3 || username.length > 32) {
+    errorEl.textContent = 'Lo username deve essere tra 3 e 32 caratteri';
+    return;
+  }
+
+  if (!/^[a-zA-Z0-9_.]+$/.test(username)) {
+    errorEl.textContent = 'Lo username può contenere solo lettere, numeri, punti e _';
+    return;
+  }
+
+  if (password.length < 6) {
+    errorEl.textContent = 'La password deve essere almeno 6 caratteri';
+    return;
+  }
+
+  if (password !== passwordConfirm) {
+    errorEl.textContent = 'Le password non corrispondono';
+    return;
+  }
+
+  registerBtn.disabled = true;
+  registerBtn.innerHTML = '<span class="login-loading"></span>';
+
+  try {
+    const res = await fetch(`${API_BASE}/api/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ username, password, email: email || undefined }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      errorEl.textContent = data.error || 'Registrazione fallita';
+      registerBtn.disabled = false;
+      registerBtn.innerHTML = '<span>Crea Account</span>';
+      return;
+    }
+
+    // Registrazione riuscita — login automatico
+    state.isLoggedIn = true;
+    state.username = data.user?.name || username;
+    state.sessionToken = data.app_session_id || null;
+    state.godMode = false;
+    saveState();
+    showApp();
+    checkServerConnection();
+    syncFromServer();
+  } catch (e) {
+    errorEl.textContent = 'Server non raggiungibile. Riprova.';
+    registerBtn.disabled = false;
+    registerBtn.innerHTML = '<span>Crea Account</span>';
+  }
 }
 
 function handleLogout() {

@@ -35,14 +35,27 @@
         <div class="feature-item"><span class="feature-icon">🌐</span> Ricerche OSINT su fonti aperte</div>
         <div class="feature-item"><span class="feature-icon">💻</span> Terminale con sandbox e auto-install</div>
       </div>
-      <div class="login-form">
+      <!-- Login Form -->
+      <div class="login-form" id="login-form-section">
         <input type="text" id="login-username" placeholder="Username" class="login-input" autocomplete="off">
         <input type="password" id="login-password" placeholder="Password" class="login-input">
         <button id="login-btn" class="login-button" onclick="handleLogin()">
           <span>Accedi</span>
         </button>
         <p id="login-error" class="login-error"></p>
-          <p class="login-note">Accesso riservato — Dati sincronizzati con il server</p>
+        <p class="login-switch">Non hai un account? <a href="#" onclick="showRegisterForm(); return false;" class="login-link">Registrati</a></p>
+      </div>
+      <!-- Register Form -->
+      <div class="login-form" id="register-form-section" style="display:none;">
+        <input type="text" id="register-username" placeholder="Scegli un username" class="login-input" autocomplete="off" minlength="3" maxlength="32">
+        <input type="email" id="register-email" placeholder="Email (opzionale)" class="login-input" autocomplete="off">
+        <input type="password" id="register-password" placeholder="Scegli una password" class="login-input" minlength="6">
+        <input type="password" id="register-password-confirm" placeholder="Conferma password" class="login-input">
+        <button id="register-btn" class="login-button register-button" onclick="handleRegister()">
+          <span>Crea Account</span>
+        </button>
+        <p id="register-error" class="login-error"></p>
+        <p class="login-switch">Hai gi&agrave; un account? <a href="#" onclick="showLoginForm(); return false;" class="login-link">Accedi</a></p>
       </div>
     </div>
   </div>

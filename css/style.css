@@ -214,6 +214,53 @@ html, body {
   margin-top: 4px;
 }
 
+.login-switch {
+  font-size: 13px;
+  color: var(--fg-muted);
+  margin-top: 8px;
+  text-align: center;
+}
+
+.login-link {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}
+
+.register-button {
+  background: var(--accent-blue);
+}
+
+.login-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.login-loading {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(0,0,0,0.3);
+  border-top-color: #000;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.login-success {
+  color: var(--success);
+  font-size: 13px;
+  min-height: 20px;
+}
+
 /* ─── App Layout ─── */
 #app-screen {
   flex-direction: row;
