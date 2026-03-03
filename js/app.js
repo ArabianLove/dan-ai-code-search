@@ -13,7 +13,7 @@ let state = {
   username: '',
   godMode: false,
   godModeStep: 0,
-  currentMode: 'general',
+  currentMode: 'coding',
   currentChatId: null,
   chats: {},
   ttsEnabled: true,
@@ -290,7 +290,7 @@ async function syncFromServer() {
               id: localId,
               externalId: sc.externalId || sc.id,
               title: sc.title || 'Conversazione',
-              mode: sc.mode || 'general',
+              mode: sc.mode || 'coding',
               messages: [],
               createdAt: new Date(sc.createdAt).getTime(),
               synced: true,
@@ -488,7 +488,7 @@ function updateQuickActions() {
   };
 
   const container = document.getElementById('quick-actions');
-  const items = actions[state.currentMode] || actions.general;
+  const items = actions[state.currentMode] || actions.coding;
   container.innerHTML = items.map(a => {
     const text = typeof t === 'function' ? t(a.textKey) : a.textKey;
     const prompt = typeof t === 'function' ? t(a.promptKey) : a.promptKey;
@@ -518,7 +518,7 @@ function newChat() {
 function loadChat(chatId) {
   if (!state.chats[chatId]) return;
   state.currentChatId = chatId;
-  state.currentMode = state.chats[chatId].mode || 'general';
+  state.currentMode = state.chats[chatId].mode || 'coding';
   saveState();
   updateModeUI();
   document.querySelectorAll('.mode-btn').forEach(btn => {
@@ -643,7 +643,7 @@ async function sendMessage() {
   const typingEl = showTypingIndicator();
 
   try {
-    let systemPrompt = SYSTEM_PROMPTS[state.currentMode] || SYSTEM_PROMPTS.general;
+    let systemPrompt = SYSTEM_PROMPTS[state.currentMode] || SYSTEM_PROMPTS.coding;
     if (state.godMode) systemPrompt += GOD_MODE_BOOST;
 
     const messages = chat.messages.map(m => ({ role: m.role, content: m.content }));

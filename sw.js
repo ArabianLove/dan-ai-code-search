@@ -1,4 +1,4 @@
-const CACHE_NAME = 'danai-v5';
+const CACHE_NAME = 'danai-v6';
 const ASSETS = [
   '/',
   '/index.html',

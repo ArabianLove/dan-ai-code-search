@@ -116,9 +116,9 @@ html, body {
 }
 
 .login-logo-img {
-  width: 100px;
-  height: 100px;
-  border-radius: 22px;
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
   margin-bottom: 16px;
   object-fit: contain;
 }
@@ -131,9 +131,9 @@ html, body {
 }
 
 .welcome-logo-img {
-  width: 80px;
-  height: 80px;
-  border-radius: 18px;
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
   object-fit: contain;
 }
 
