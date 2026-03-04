@@ -132,7 +132,7 @@ dan-ai-code-search/
 
 ## Autore
 
-Sviluppato da **Danilo Catanzaro** — [ArabianLove](https://github.com/ArabianLove)
+Sviluppato da **Danilo Rapetti** — [ArabianLove](https://github.com/ArabianLove)
 
 ---
 
