@@ -4,7 +4,7 @@
    ═══════════════════════════════════════════════ */
 
 // ─── Configuration ───
-const API_BASE = window.location.origin; // Same origin — served by the app server
+const API_BASE = 'https://dan-ai-backend-production.up.railway.app'; // Railway backend
 const API_TRPC = `${API_BASE}/api/trpc`;
 
 // ─── State ───
