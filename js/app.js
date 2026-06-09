@@ -4,7 +4,7 @@
    ═══════════════════════════════════════════════ */
 
 // ─── Configuration ───
-const API_BASE = 'https://dan-ai-backend-production.up.railway.app'; // Railway backend
+const API_BASE = 'https://manusai-mj9vvvcu.manus.space'; // Manus backend (stabile)
 const API_TRPC = `${API_BASE}/api/trpc`;
 
 // ─── State ───
