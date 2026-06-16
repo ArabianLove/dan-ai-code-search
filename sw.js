@@ -1,24 +1,27 @@
-const CACHE_NAME = 'danai-v6';
+const CACHE_NAME = 'danai-v7';
+// Relative paths so the SW works under a GitHub Pages subpath
+// (e.g. /dan-ai-code-search/) and not only at the domain root.
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/css/style.css',
-  '/css/chat.css',
-  '/css/terminal.css',
-  '/js/app.js',
-  '/js/i18n.js',
-  '/manifest.json',
-  '/favicon.png',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
+  './',
+  'index.html',
+  'css/style.css',
+  'css/chat.css',
+  'css/terminal.css',
+  'js/app.js',
+  'js/i18n.js',
+  'manifest.json',
+  'favicon.png',
+  'icons/icon-192.png',
+  'icons/icon-512.png',
 ];
 
 // CDN assets to cache for full offline support
 const CDN_ASSETS = [
   'https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js',
   'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js',
+  'https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.11/purify.min.js',
   'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css',
-  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap',
+  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap',
 ];
 
 // Install: cache core assets + CDN
