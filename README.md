@@ -82,15 +82,16 @@ Apri il file scaricato e segui le istruzioni di installazione. Potrebbe essere n
 
 ## Stack Tecnologico
 
+> Questo repository contiene il **frontend web / PWA**. Il backend AI e l'eventuale
+> app nativa sono ospitati separatamente; la PWA li raggiunge tramite l'URL
+> configurato in `js/app.js` (`API_BASE`).
+
 | Componente | Tecnologia |
 |------------|------------|
-| **Frontend mobile** | React Native, Expo SDK 54, TypeScript, NativeWind |
-| **Frontend web/PWA** | HTML5, CSS3, JavaScript, Service Worker |
-| **Backend** | Node.js, Express, tRPC, Drizzle ORM |
-| **Database** | PostgreSQL |
-| **AI primario** | Gemini 3 Flash (Google AI API) |
-| **AI fallback** | Gemini 2.5 Flash (Manus Forge) |
-| **Autenticazione** | OAuth con sessioni sicure |
+| **Frontend (questo repo)** | HTML5, CSS3, JavaScript vanilla, Service Worker (PWA) |
+| **Rendering** | marked (Markdown), highlight.js (syntax), DOMPurify (sanitizzazione) |
+| **Persistenza locale** | `localStorage` + coda di sincronizzazione offline |
+| **Backend AI** | API esterna configurabile via `API_BASE` (endpoint tRPC) |
 | **Hosting PWA** | GitHub Pages |
 
 ---

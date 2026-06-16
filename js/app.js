@@ -199,21 +199,20 @@ if (navigator.serviceWorker) {
 }
 
 // ─── Init ───
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   loadUILanguage();
   loadTheme();
   loadState();
   isOnline = navigator.onLine;
-  if (state.isLoggedIn) {
-    showApp();
-    checkServerConnection();
-    syncFromServer();
-  }
   setupInput();
   setupVoiceRecognition();
-  requestNotificationPermission();
   applyTranslations();
   updateOfflineBanner();
+  if (state.isLoggedIn) {
+    showApp();
+    await checkServerConnection();
+    syncFromServer();
+  }
 });
 
 function loadState() {
@@ -261,11 +260,6 @@ async function checkServerConnection() {
 }
 
 function updateConnectionStatus() {
-  const indicator = document.getElementById('connection-status');
-  if (indicator) {
-    indicator.className = state.serverConnected ? 'status-dot connected' : 'status-dot disconnected';
-    indicator.title = state.serverConnected ? 'Server connesso' : 'Server offline — modalità locale';
-  }
   const textEl = document.getElementById('connection-status-text');
   if (textEl) {
     textEl.textContent = state.serverConnected ? '✅ Connesso' : '❌ Offline';
@@ -337,7 +331,7 @@ async function handleLogin() {
     saveState();
     showApp();
     activateGodModeUI();
-    checkServerConnection();
+    await checkServerConnection();
     syncFromServer();
     return;
   }
@@ -371,7 +365,7 @@ async function handleLogin() {
     state.godMode = false;
     saveState();
     showApp();
-    checkServerConnection();
+    await checkServerConnection();
     syncFromServer();
   } catch (e) {
     // Se il server non è raggiungibile, fallback locale
@@ -443,7 +437,7 @@ async function handleRegister() {
     state.godMode = false;
     saveState();
     showApp();
-    checkServerConnection();
+    await checkServerConnection();
     syncFromServer();
   } catch (e) {
     errorEl.textContent = 'Server non raggiungibile. Riprova.';
@@ -475,6 +469,7 @@ function showApp() {
   }
   document.getElementById('voice-lang-select').value = state.voiceLang;
   document.getElementById('tts-toggle').checked = state.ttsEnabled;
+  requestNotificationPermission();
 }
 
 // ─── God Mode ───
@@ -759,9 +754,6 @@ async function sendMessage() {
   const typingEl = showTypingIndicator();
 
   try {
-    let systemPrompt = SYSTEM_PROMPTS[state.currentMode] || SYSTEM_PROMPTS.coding;
-    if (state.godMode) systemPrompt += GOD_MODE_BOOST;
-
     const messages = chat.messages.map(m => ({ role: m.role, content: m.content }));
 
     const response = await callAI(messages, chat.externalId);
@@ -863,23 +855,25 @@ function generateLocalResponse(messages) {
   const mode = state.currentMode;
   const godTag = state.godMode ? ' [GOD MODE]' : '';
 
-  return `## Dan AI${godTag} — Modalità Offline
+  const preview = lastMsg.length > 80 ? lastMsg.substring(0, 80) + '…' : lastMsg;
 
-Ho ricevuto la tua richiesta: "${lastMsg.substring(0, 80)}..."
+  return `## Dan AI${godTag} — Server non raggiungibile
 
-Il server backend non è raggiungibile al momento. Le risposte AI complete richiedono la connessione al server.
+Non riesco a contattare il backend AI, quindi non posso elaborare una risposta vera in questo momento. Il tuo messaggio è stato salvato.
 
-### Stato connessione
-- **Server**: Offline
+> ${preview}
+
+### Stato
+- **Server AI**: ❌ offline
 - **Modalità**: ${MODE_LABELS[mode]?.name || 'Generale'}
-- **God Mode**: ${state.godMode ? 'Attivo' : 'Disattivo'}
+- **God Mode**: ${state.godMode ? '⚡ Attivo' : 'Disattivo'}
 
-### Cosa puoi fare
-- Controlla la connessione di rete
-- Verifica che il server backend sia in esecuzione
-- Le conversazioni locali sono salvate e verranno sincronizzate quando il server sarà disponibile
+### Cosa fare
+- Controlla la tua connessione di rete.
+- Verifica che il backend sia online e che l'URL in \`API_BASE\` sia corretto.
+- La conversazione è salvata in locale e verrà sincronizzata appena il server torna disponibile.
 
-*Dan AI Code & Search v2.0 — PWA*`;
+*Dan AI Code & Search — PWA*`;
 }
 
 function quickAction(prompt) {
@@ -1079,7 +1073,7 @@ function appendMessageToUI(role, content, index) {
   const actions = role === 'assistant' ? `
     <div class="message-actions">
       <button class="message-action-btn" onclick="copyMessage(${index})">📋 Copia</button>
-      <button class="message-action-btn" onclick="speakText(\`${escapeForJS(content)}\`)">🔊 Ascolta</button>
+      <button class="message-action-btn" onclick="speakMessage(${index})">🔊 Ascolta</button>
       <button class="message-action-btn" onclick="exportCurrentChat('txt')">📄 Esporta</button>
     </div>
   ` : '';
@@ -1120,18 +1114,15 @@ function showTypingIndicator() {
 function renderMarkdown(text) {
   try {
     if (typeof marked !== 'undefined') {
-      marked.setOptions({
-        breaks: true,
-        gfm: true,
-        highlight: function(code, lang) {
-          if (typeof hljs !== 'undefined' && lang && hljs.getLanguage(lang)) {
-            return hljs.highlight(code, { language: lang }).value;
-          }
-          return code;
-        }
-      });
+      marked.setOptions({ breaks: true, gfm: true });
 
       let html = marked.parse(text);
+
+      // Sanitize the AI/markdown output BEFORE we inject our own trusted
+      // code-block header buttons (so DOMPurify doesn't strip them).
+      if (typeof DOMPurify !== 'undefined') {
+        html = DOMPurify.sanitize(html);
+      }
 
       html = html.replace(/<pre><code class="language-(\w+)">/g, (match, lang) => {
         return `<pre><div class="code-block-header"><span class="code-lang">${lang}</span><button class="copy-code-btn" onclick="copyCodeBlock(this)">Copia</button></div><code class="language-${lang}">`;
@@ -1165,6 +1156,13 @@ function copyMessage(index) {
   }
 }
 
+function speakMessage(index) {
+  const chat = state.chats[state.currentChatId];
+  if (chat && chat.messages[index]) {
+    speakText(chat.messages[index].content);
+  }
+}
+
 function copyCodeBlock(btn) {
   const pre = btn.closest('pre');
   const code = pre.querySelector('code');
@@ -1193,10 +1191,6 @@ function escapeHtml(text) {
   const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
-}
-
-function escapeForJS(text) {
-  return text.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$');
 }
 
 // ─── Input Handling ───
